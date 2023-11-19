@@ -1,0 +1,22 @@
+{
+  "name": "use-media-device",
+  "version": "1.0.0",
+  "description": "simple hook for easy camera and mic access",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "prepare": "npx tsc --allowJs -d --emitDeclarationOnly src/index.js --lib esnext"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salmannotkhan/use-media-device.git"
+  },
+  "author": "Salman Shaikh <tony903212@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
