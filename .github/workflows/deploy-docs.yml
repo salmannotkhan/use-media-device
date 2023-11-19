@@ -17,7 +17,7 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm gen:docs --if-present
+      - run: npm run gen:docs --if-present
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
