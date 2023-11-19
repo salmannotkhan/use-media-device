@@ -1,5 +1,5 @@
-/** @param {MediaOpts & MediaArgs} */
-export default function useMediaDevice({ autoStart, ...mediaArgs }?: MediaOpts & MediaArgs): {
+/** @param {MediaArgs} args */
+export default function useMediaDevice({ autoStart, ...mediaArgs }?: MediaArgs): {
     media: MediaStream;
     startMedia: () => void;
     stopMedia: (opts?: MediaOpts) => void;
@@ -17,6 +17,8 @@ export type MediaArgs = {
      * Start media permissions when component is loaded
      */
     autoStart?: boolean;
+    audio?: boolean;
+    video?: boolean;
 };
 export type PhotoOpts = {
     /**
@@ -28,7 +30,7 @@ export type PhotoOpts = {
      */
     format?: "image/png" | "image/jpeg" | "image/webp";
     /**
-     * Image quality
+     * Image quality (between 0 to 1)
      */
     quality?: number;
 };

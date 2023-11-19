@@ -5,18 +5,30 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
-    "prepare": "npx tsc --allowJs -d --emitDeclarationOnly src/index.js --lib esnext"
+    "gen:types": "npx tsc --allowJs -d --emitDeclarationOnly src/index.js --lib esnext",
+    "gen:docs": "jsdoc -R README.md -d ./docs src/",
+    "prepare": "npm run gen:types && npm run gen:docs"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/salmannotkhan/use-media-device.git"
+    "url": "git+https://github.com/salmannotkhan/use-media-device.git"
   },
   "author": "Salman Shaikh <tony903212@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "use-camera",
+    "use-media",
+    "react",
+    "camera",
+    "microphone",
+    "photo",
+    "record"
+  ],
   "dependencies": {
     "react": "^18.2.0"
   },
   "devDependencies": {
+    "jsdoc": "^4.0.2",
     "typescript": "^5.2.2"
   }
 }

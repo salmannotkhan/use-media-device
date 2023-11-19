@@ -2,16 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 
 /**
  * @typedef {object} MediaOpts
- * @prop {boolean} [audio]
- * @prop {boolean} [video]
- *
+ * @prop {boolean} [audio=true]
+ * @prop {boolean} [video=true]
+ */
+
+/**
  * @typedef {object} MediaArgs
- * @prop {boolean} [autoStart] Start media permissions when component is loaded
- *
+ * @prop {boolean} [autoStart=true] Start media permissions when component is loaded
+ * @prop {boolean} [audio=true]
+ * @prop {boolean} [video=true]
+ */
+
+/**
  * @typedef {object} PhotoOpts
  * @prop {boolean} [disableCamera=true] Disable camera after taking photo
- * @prop {"image/png" | "image/jpeg" | "image/webp"} [format] Image format
- * @prop {number} [quality] Image quality
+ * @prop {"image/png" | "image/jpeg" | "image/webp"} [format="image/jpeg"] Image format
+ * @prop {number} [quality] Image quality (between 0 to 1)
  */
 
 const DEFAULT_MEDIA_OPTS = {
@@ -24,12 +30,12 @@ const DEFAULT_MEDIA_ARGS = {
   autoStart: true,
 };
 
-/** @param {MediaOpts & MediaArgs} */
+/** @param {MediaArgs} args */
 export default function useMediaDevice({
   autoStart,
   ...mediaArgs
 } = DEFAULT_MEDIA_ARGS) {
-  /** @type [MediaStream, React.Dispatch<React.SetStateAction<MediaStream>>] */
+  /** @type Array<MediaStream> */
   const [media, setMedia] = useState();
 
   /** @type React.MutableRefObject<React.ElementRef<"video">> */
@@ -50,7 +56,12 @@ export default function useMediaDevice({
     }
   }, [media, autoStart, mediaArgs]);
 
-  /** @param {MediaStream} media */
+  /**
+   * @method setupVideo
+   * @private
+   * @description Setup video properties and media stream
+   * @param {MediaStream} media
+   */
   function setupVideo(media) {
     if (!videoRef.current) {
       throw Error("Please setup the videoRef before using camera");
@@ -60,12 +71,20 @@ export default function useMediaDevice({
     videoRef.current.oncanplay = () => videoRef.current?.play();
   }
 
+  /**
+   * @method startMedia
+   * @description Start media by asking permissions
+   * @returns {void}
+   */
   function startMedia() {
     navigator.mediaDevices.getUserMedia(mediaArgs).then(setMedia);
   }
 
   /**
+   * @method stopMedia
+   * @description Stop access to camera and/or microphone
    * @param {MediaOpts} [opts=DEFAULT_MEDIA_ARGS]
+   * @returns {void}
    */
   function stopMedia(opts = DEFAULT_MEDIA_OPTS) {
     if (opts.audio) {
@@ -77,7 +96,9 @@ export default function useMediaDevice({
   }
 
   /**
-   * @param {string=} id
+   * @method stopVideo
+   * @description Stop video track
+   * @param {string=} id id of video track, if omitted stops all the video tracks
    * @returns {void}
    */
   function stopVideo(id) {
@@ -90,7 +111,9 @@ export default function useMediaDevice({
   }
 
   /**
-   * @param {string=} id
+   * @method stopAudio
+   * @description Stop audio track
+   * @param {string=} id id of audio track, if omitted stops all the tracks tracks
    * @returns {void}
    */
   function stopAudio(id) {
@@ -103,6 +126,8 @@ export default function useMediaDevice({
   }
 
   /**
+   * @method takePhoto
+   * @description Take a photo using webcam
    * @param {PhotoOpts} [opts] Photo options
    * @returns {string} Data URL of the image
    */
