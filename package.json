@@ -1,6 +1,6 @@
 {
   "name": "use-media-device",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "simple hook for easy camera and mic access",
   "main": "src/index.js",
   "types": "src/index.d.ts",
