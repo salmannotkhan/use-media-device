@@ -6,6 +6,9 @@ name: Docs Deployment CI
 on:
   release:
     types: [created]
+    
+permissions:
+  contents: write
 
 jobs:
   build:
